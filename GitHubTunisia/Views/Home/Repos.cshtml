@@ -1,15 +1,11 @@
-﻿@model List<Octokit.User>
+﻿@model List<Octokit.Repository>
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Top Tunisian Repos";
 }
-
-<div class="jumbotron">
-    <h1>GitHub Tunisia</h1>
-    <p class="lead">Numbers about the tunisian coders in <a href="https://github.com">GitHub</a>!</p>
-</div>
+<h2>@ViewBag.Title.</h2>
 
 <div class="row">
-    <h3>Best tunisian coder in GitHub!</h3>
+    <h3>Top tunisian repositories in GitHub!</h3>
     <div class="col-md-12">
         <table class="table">
             <thead>
@@ -25,29 +21,29 @@
             </thead>
             <tbody>
                 @{ var counter = 1; }
-                @foreach(var user in Model)
+                @foreach (var repo in Model)
                 {
                     <tr>
                         <td>
                             <b>@counter</b>
                         </td>
                         <td>
-                            <img src="@user.AvatarUrl" style="height:40px;width:40px;" class="img-circle" />
+                            <img src="@repo.AvatarUrl" style="height:40px;width:40px;" class="img-circle" />
                         </td>
                         <td>
-                            <a href="@user.HtmlUrl">@(user.Name ?? (user.Login ?? "N/A"))</a>
+                            <a href="@repo.HtmlUrl">@(repo.Name ?? (repo.Login ?? "N/A"))</a>
                         </td>
                         <td>
-                            @(user.Email ?? "N/A")
+                            @(repo.Email ?? "N/A")
                         </td>
                         <td>
-                            <i class="text-muted">@(user.Bio ?? "...")</i>
+                            <i class="text-muted">@(repo.Bio ?? "...")</i>
                         </td>
                         <td>
-                            <a href="@(user.Blog ?? "#")">@(user.Blog ?? "N/A")</a>
+                            <a href="@(repo.Blog ?? "#")">@(repo.Blog ?? "N/A")</a>
                         </td>
                         <td>
-                            @(user.Followers)
+                            @(repo.Followers)
                         </td>
                     </tr>
                     // increasing the counter

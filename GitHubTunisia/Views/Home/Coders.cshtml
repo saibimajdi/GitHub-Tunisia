@@ -1,12 +1,9 @@
 ﻿@model List<Octokit.User>
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Top Tunisian Coders";
 }
 
-<div class="jumbotron">
-    <h1>GitHub Tunisia</h1>
-    <p class="lead">Numbers about the tunisian coders in <a href="https://github.com">GitHub</a>!</p>
-</div>
+<h2>@ViewBag.Title.</h2>
 
 <div class="row">
     <h3>Best tunisian coder in GitHub!</h3>
@@ -25,7 +22,7 @@
             </thead>
             <tbody>
                 @{ var counter = 1; }
-                @foreach(var user in Model)
+                @foreach (var user in Model)
                 {
                     <tr>
                         <td>
