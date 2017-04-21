@@ -1,30 +1,55 @@
 ﻿@model List<Octokit.User>
 @{
     ViewBag.Title = "Home Page";
+
+    var bestCoder = Model.FirstOrDefault();
+    Model.RemoveAt(0);
+
 }
 
-<div class="jumbotron">
-    <h1>GitHub Tunisia</h1>
-    <p class="lead">Numbers about the tunisian coders in <a href="https://github.com">GitHub</a>!</p>
+<div class="jumbotron" style="display: inline-block;width: 100%;">
+    <div class="col-md-8">
+        <h1>GitHub Tunisia</h1>
+        <p class="lead">Numbers about the tunisian coders in <a href="https://github.com">GitHub</a>!</p>
+    </div>
+    <div class="col-md-4">
+        <img src="~/Content/logo.png" style="width:180px; border-radius:90px;" />
+    </div>
 </div>
 
 <div class="row">
-    <h3>Best tunisian coder in GitHub!</h3>
+    <h3>Best tunisian coders in GitHub!</h3>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <center style="background-color: darkslategrey;border-radius: 90px;padding: 20px;margin: 10px;margin-bottom: 40px;">
+                <img src="Content/ribbon.png" style="height: 60px;position: absolute;margin-top: -10px;" />
+                <img style="width:100px; height:100px" src="@bestCoder.AvatarUrl" alt="@(bestCoder.Name?? bestCoder.Login)" class="img-circle" />
+                <h3 style="color:goldenrod;font-style: italic;font-weight: 900;text-transform: uppercase;text-shadow: 1px 1px 5px goldenrod;">
+                    <a href="@bestCoder.HtmlUrl" style="text-decoration: none;color: goldenrod;">@(bestCoder.Name ?? bestCoder.Login)</a>
+                </h3>
+                <p>
+                    @bestCoder.Bio
+                </p>
+            </center>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
     <div class="col-md-12">
         <table class="table">
             <thead>
                 <tr>
                     <th>#</th>
                     <th></th>
-                    <th>name</th>
-                    <th>email</th>
-                    <th>bio</th>
-                    <th>blog</th>
-                    <th>followers</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Bio</th>
+                    <th>Blog</th>
+                    <th>Followers</th>
                 </tr>
             </thead>
             <tbody>
-                @{ var counter = 1; }
+                @{ var counter = 2; }
                 @foreach(var user in Model)
                 {
                     <tr>
@@ -41,7 +66,7 @@
                             @(user.Email ?? "N/A")
                         </td>
                         <td>
-                            <i class="text-muted">@(user.Bio ?? "...")</i>
+                            <i>@(user.Bio ?? "...")</i>
                         </td>
                         <td>
                             <a href="@(user.Blog ?? "#")">@(user.Blog ?? "N/A")</a>

@@ -11,6 +11,7 @@ namespace GitHubTunisia.Controllers
 {
     public class HomeController : Controller
     {
+        [OutputCache(Duration = 1800, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.ServerAndClient)]
         public async Task<ActionResult> Index()
         {
             var client = new GitHubClient(new ProductHeaderValue("github-tunisia"));
@@ -32,6 +33,7 @@ namespace GitHubTunisia.Controllers
             return View(users.Take(10).ToList());
         }
 
+        [OutputCache(Duration = 1800, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.ServerAndClient)]
         public async Task<ActionResult> Repos()
         {
             var client = new GitHubClient(new ProductHeaderValue("github-tunisia"));
@@ -52,6 +54,7 @@ namespace GitHubTunisia.Controllers
             return View(repos);
         }
 
+        [OutputCache(Duration = 1800, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.ServerAndClient)]
         public ActionResult Coders()
         {
             var client = new GitHubClient(new ProductHeaderValue("github-tunisia"));

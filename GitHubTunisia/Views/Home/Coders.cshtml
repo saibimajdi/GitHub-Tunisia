@@ -2,22 +2,34 @@
 @{
     ViewBag.Title = "Top Tunisian Coders";
 }
+<link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+@section scripts{
 
+    <script src="http://code.jquery.com/jquery-1.12.4.js" ></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+    
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable();
+        });
+    </script>
+
+}
 <h2>@ViewBag.Title.</h2>
 
 <div class="row">
-    <h3>Best tunisian coder in GitHub!</h3>
     <div class="col-md-12">
         <table class="table">
             <thead>
                 <tr>
                     <th>#</th>
                     <th></th>
-                    <th>name</th>
-                    <th>email</th>
-                    <th>bio</th>
-                    <th>blog</th>
-                    <th>followers</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Bio</th>
+                    <th>Blog</th>
+                    <th>Followers</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,7 +50,7 @@
                             @(user.Email ?? "N/A")
                         </td>
                         <td>
-                            <i class="text-muted">@(user.Bio ?? "...")</i>
+                            <i>@(user.Bio ?? "...")</i>
                         </td>
                         <td>
                             <a href="@(user.Blog ?? "#")">@(user.Blog ?? "N/A")</a>
