@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Octokit;
 using System.Configuration;
 using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace GitHubTunisia.Controllers
 {
@@ -74,6 +75,23 @@ namespace GitHubTunisia.Controllers
                 users.Add(client.User.Get(item.Login).Result);
 
             return View(users);
+        }
+
+        // only for test!!!!
+        public async Task<ActionResult> q()
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://api.github.com");
+
+            var response = await client.GetAsync("/search/users?q=+location:tunisia&per_page=99");
+
+            var jsonContent = await response.Content.ReadAsStringAsync();
+
+            List<Models.User> users = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Models.User>>(jsonContent);
+
+            
+
+            return View();
         }
     }
 }
