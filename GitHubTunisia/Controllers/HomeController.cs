@@ -23,6 +23,13 @@ namespace GitHubTunisia.Controllers
             usersInformation.Sort((user1, user2) => user2.score - user1.score);
 
             return View(usersInformation);
+
+            //if(Models.Data.UsersInformation == null)
+            //{
+            //    await MvcApplication.InitDataAsync();
+            //}
+
+            //return View(Models.Data.UsersInformation.Take(10).ToList());   
         }
 
         [OutputCache(Duration = 1800, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
@@ -69,7 +76,11 @@ namespace GitHubTunisia.Controllers
         // only for test!!!!
         public async Task<ActionResult> q()
         {
-            return View();
+            Models.DataFromGitHubClient data = new Models.DataFromGitHubClient();
+
+            var users = await data.GetUsers(1, 100);
+
+            return Json(users, JsonRequestBehavior.AllowGet);
         }
     }
 }

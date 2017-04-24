@@ -14,7 +14,7 @@ namespace GitHubTunisia.Models
         private System.Net.Http.HttpClient _client { get; set; }
 
         private readonly string _baseUrlForTunisianCoders = "https://api.github.com/search/users?q=+location:tunisia";
-
+            
         // get the token from the Environment Variable
         private readonly string _token = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
         
@@ -37,7 +37,7 @@ namespace GitHubTunisia.Models
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("token", _token);
 
                 // send the http request and get the result
-                var response = await _client.SendAsync(request);
+                var response = await _client.SendAsync(request).ConfigureAwait(false);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -61,7 +61,7 @@ namespace GitHubTunisia.Models
                             userRequest.Headers.Add("User-Agent", "github-tunisia");
                             userRequest.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("token", _token);
 
-                            var userResponse = await _client.SendAsync(userRequest);
+                            var userResponse = await _client.SendAsync(userRequest).ConfigureAwait(false);
                             var userJsonContent = await userResponse.Content.ReadAsStringAsync();
 
                             user.Information = Newtonsoft.Json.JsonConvert.DeserializeObject<Models.UserInformation>(userJsonContent);
@@ -94,7 +94,7 @@ namespace GitHubTunisia.Models
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("token", _token);
 
                 // send the http request and get the result
-                var response = await _client.SendAsync(request);
+                var response = await _client.SendAsync(request).ConfigureAwait(false);
 
                 if(response.IsSuccessStatusCode)
                 {
@@ -112,6 +112,19 @@ namespace GitHubTunisia.Models
         private int GetUserScore(int? public_gists, int? public_repos, int? followers, int? following, int events)
         {
             return (int) ((0.1 * (public_repos + public_gists) + 0.2 * (followers + following) + 0.7 * events) * 10);
+        }
+
+        public async Task<List<UserInformation>> GetAllUsersInformation()
+        {
+            List<UserInformation> usersInformation = new List<UserInformation>();
+
+            for(int index = 1; index <= 3; ++index)
+            {
+                var _usersInformation = await GetUsersInformation(page: index, perPage: 100);
+                usersInformation.AddRange(_usersInformation);
+            }
+
+            return usersInformation;
         }
     }
 }

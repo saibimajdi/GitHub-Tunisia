@@ -3,7 +3,10 @@
     ViewBag.Title = "Home Page";
 
     var bestCoder = Model.FirstOrDefault();
-    Model.RemoveAt(0);
+    if(Model != null && Model.Count > 0)
+    {
+        Model.RemoveAt(0);
+    }
 }
 
 <div class="jumbotron" style="display: inline-block;width: 100%;">
