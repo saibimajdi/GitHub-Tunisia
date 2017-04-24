@@ -20,7 +20,7 @@ namespace GitHubTunisia.Controllers
 
             var usersInformation = await customClient.GetUsersInformation(perPage: 10);
 
-            usersInformation.Sort((user1, user2) => user1.score - user2.score);
+            usersInformation.Sort((user1, user2) => user2.score - user1.score);
 
             return View(usersInformation);
         }
