@@ -1,6 +1,7 @@
-﻿@model List<Octokit.User>
+﻿@model List<GitHubTunisia.Models.UserInformation>
 @{
     ViewBag.Title = "Top Tunisian Coders";
+    var page = (int)ViewBag.page;
 }
 <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
 @section scripts{
@@ -33,7 +34,7 @@
                 </tr>
             </thead>
             <tbody>
-                @{ var counter = 1; }
+                @{ var counter = 1 + (page - 1) * 100; }
                 @foreach (var user in Model)
                 {
                     <tr>
@@ -41,22 +42,22 @@
                             <b>@counter</b>
                         </td>
                         <td>
-                            <img src="@user.AvatarUrl" style="height:40px;width:40px;" class="img-circle" />
+                            <img src="@user.avatar_url" style="height:40px;width:40px;" class="img-circle" />
                         </td>
                         <td>
-                            <a href="@user.HtmlUrl">@(user.Name ?? (user.Login ?? "N/A"))</a>
+                            <a href="@user.html_url">@(user.name ?? (user.login ?? "N/A"))</a>
                         </td>
                         <td>
-                            @(user.Email ?? "N/A")
+                            @(user.email ?? "N/A")
                         </td>
                         <td>
-                            <i>@(user.Bio ?? "...")</i>
+                            <i>@(user.bio ?? "...")</i>
                         </td>
                         <td>
-                            <a href="@(user.Blog ?? "#")">@(user.Blog ?? "N/A")</a>
+                            <a href="@(user.blog ?? "#")">@(user.blog ?? "N/A")</a>
                         </td>
                         <td>
-                            @(user.Followers)
+                            @(user.followers)
                         </td>
                     </tr>
                     // increasing the counter

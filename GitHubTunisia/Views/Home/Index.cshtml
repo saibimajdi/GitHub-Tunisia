@@ -1,10 +1,9 @@
-﻿@model List<Octokit.User>
+﻿@model List<GitHubTunisia.Models.UserInformation>
 @{
     ViewBag.Title = "Home Page";
 
     var bestCoder = Model.FirstOrDefault();
     Model.RemoveAt(0);
-
 }
 
 <div class="jumbotron" style="display: inline-block;width: 100%;">
@@ -24,12 +23,12 @@
         <div class="col-md-4">
             <center style="background-color: darkslategrey;border-radius: 90px;padding: 20px;margin: 10px;margin-bottom: 40px;">
                 <img src="Content/ribbon.png" style="height: 60px;position: absolute;margin-top: -10px;" />
-                <img style="width:100px; height:100px" src="@bestCoder.AvatarUrl" alt="@(bestCoder.Name?? bestCoder.Login)" class="img-circle" />
+                <img style="width:100px; height:100px" src="@bestCoder.avatar_url" alt="@(bestCoder.name?? bestCoder.login)" class="img-circle" />
                 <h3 style="color:goldenrod;font-style: italic;font-weight: 900;text-transform: uppercase;text-shadow: 1px 1px 5px goldenrod;">
-                    <a href="@bestCoder.HtmlUrl" style="text-decoration: none;color: goldenrod;">@(bestCoder.Name ?? bestCoder.Login)</a>
+                    <a href="@bestCoder.html_url" style="text-decoration: none;color: goldenrod;">@(bestCoder.name ?? bestCoder.login)</a>
                 </h3>
                 <p>
-                    @bestCoder.Bio
+                    @bestCoder.bio
                 </p>
             </center>
         </div>
@@ -57,22 +56,22 @@
                             <b>@counter</b>
                         </td>
                         <td>
-                            <img src="@user.AvatarUrl" style="height:40px;width:40px;" class="img-circle" />
+                            <img src="@user.avatar_url" style="height:40px;width:40px;" class="img-circle" />
                         </td>
                         <td>
-                            <a href="@user.HtmlUrl">@(user.Name ?? (user.Login ?? "N/A"))</a>
+                            <a href="@user.html_url">@(user.name ?? (user.login ?? "N/A"))</a>
                         </td>
                         <td>
-                            @(user.Email ?? "N/A")
+                            @(user.email ?? "N/A")
                         </td>
                         <td>
-                            <i>@(user.Bio ?? "...")</i>
+                            <i>@(user.bio ?? "...")</i>
                         </td>
                         <td>
-                            <a href="@(user.Blog ?? "#")">@(user.Blog ?? "N/A")</a>
+                            <a href="@(user.blog ?? "#")">@(user.blog ?? "N/A")</a>
                         </td>
                         <td>
-                            @(user.Followers)
+                            @(user.followers)
                         </td>
                     </tr>
                     // increasing the counter
@@ -81,4 +80,8 @@
             </tbody>
         </table>
     </div>
+</div>
+
+<div class="row">
+    <span style="color:orangered">Last update: @DateTime.Now</span>
 </div>
