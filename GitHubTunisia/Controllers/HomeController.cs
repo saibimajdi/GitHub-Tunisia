@@ -16,9 +16,11 @@ namespace GitHubTunisia.Controllers
         [OutputCache(Duration = 1800, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public async Task<ActionResult> Index() 
         {
-            var customClient = new Models.HttpClient();
+            var customClient = new Models.Client();
 
             var usersInformation = await customClient.GetUsersInformation(perPage: 10);
+
+            usersInformation.Sort((user1, user2) => user1.score - user2.score);
 
             return View(usersInformation);
         }
@@ -53,7 +55,7 @@ namespace GitHubTunisia.Controllers
         //[OutputCache(Duration = 1800, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Server)]
         public async Task<ActionResult> Coders(int p = 1)// p = page
         {
-            var customClient = new Models.HttpClient();
+            var customClient = new Models.Client();
 
             p = (p < 1 || p > 1500) ? 1 : p;
 
@@ -67,51 +69,7 @@ namespace GitHubTunisia.Controllers
         // only for test!!!!
         public async Task<ActionResult> q()
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://api.github.com");
-
-            var token = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
-
-            if (token == null)
-                throw new Exception("Invalid GitHub access token, please set an environment variable called GITHUB_TOKEN with containing a valid token!");
-
-            HttpRequestMessage request = new HttpRequestMessage()
-            {
-                RequestUri = new Uri($"http://api.github.com/search/users?q=+location:tunisia&per_page=200"),
-                Method = HttpMethod.Get,
-            };
-            
-            request.Headers.Add("User-Agent", "github-tunisia");
-
-            request.Headers.Authorization = new AuthenticationHeaderValue("token", token);
-
-            var response = await client.SendAsync(request);
-
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                return Json("not found", JsonRequestBehavior.AllowGet);
-
-            var jsonContent = await response.Content.ReadAsStringAsync();
-
-            Models.GitHubUsersResponse gitHubResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<Models.GitHubUsersResponse>(jsonContent);
-            //List<Models.User> users = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Models.User>>(jsonContent);
-            
-            foreach(var user in gitHubResponse.items)
-            {
-                var userRequest = new HttpRequestMessage()
-                {
-                    RequestUri = new Uri(user.url),
-                    Method = HttpMethod.Get
-                };
-
-                userRequest.Headers.Add("User-Agent", "github-tunisia");
-                userRequest.Headers.Authorization = new AuthenticationHeaderValue("token", token);
-
-                var userResponse = await client.SendAsync(userRequest);
-                var userJsonContent = await userResponse.Content.ReadAsStringAsync();
-                user.Information = Newtonsoft.Json.JsonConvert.DeserializeObject<Models.UserInformation>(userJsonContent);
-            }
-
-            return Json(gitHubResponse.items, JsonRequestBehavior.AllowGet);
+            return View();
         }
     }
 }
