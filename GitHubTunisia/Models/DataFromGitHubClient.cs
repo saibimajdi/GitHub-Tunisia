@@ -29,10 +29,19 @@ namespace GitHubTunisia.Models
 
             var result = await _client.Search.SearchUsers(request);
 
+
             List<GithubUser> users = new List<GithubUser>();
-            
-            foreach(var user in result.Items)
+
+            var apiInfo = _client.GetLastApiInfo();
+
+            foreach (var user in result.Items)
             {
+                var rateLimit = apiInfo?.RateLimit;
+
+                Console.WriteLine($"howManyRequestsCanIMakePerHour: {rateLimit?.Limit}");
+                Console.WriteLine($"howManyRequestsDoIHaveLeft: {rateLimit?.Remaining}");
+                Console.WriteLine($"whenDoesTheLimitReset: {rateLimit?.Reset}");
+
                 var githubUser = new GithubUser()
                 {
                     UserInfo = await GetFullUserInformation(user.Login),
